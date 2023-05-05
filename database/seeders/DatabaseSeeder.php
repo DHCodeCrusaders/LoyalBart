@@ -36,13 +36,11 @@ class DatabaseSeeder extends Seeder
         $loyaltyPrograms = LoyaltyProgram::query()->get();
 
         User::query()->get()->each(function (User $user) use ($loyaltyPrograms) {
-            if (random_int(0, 1)) {
-                Participant::query()->create([
-                    'participant_id' => $user->id,
-                    'loyalty_program_id' => $loyaltyPrograms->random()->id,
-                    'points' => random_int(0, 100),
-                ]);
-            }
+            Participant::query()->create([
+                'participant_id' => $user->id,
+                'loyalty_program_id' => $loyaltyPrograms->random()->id,
+                'points' => random_int(0, 100),
+            ]);
         });
     }
 }

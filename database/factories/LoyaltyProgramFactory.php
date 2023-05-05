@@ -17,7 +17,7 @@ class LoyaltyProgramFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(),
+            'title' => $this->faker->sentence(4),
             'description' => $this->faker->paragraph(),
             'photo' => $this->faker->imageUrl(),
         ];
