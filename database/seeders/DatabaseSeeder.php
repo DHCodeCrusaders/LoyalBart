@@ -16,19 +16,19 @@ class DatabaseSeeder extends Seeder
             $index = $idx + 1;
 
             \App\Models\User::factory()->create([
-                'name' => $position . ' Customer',
+                'name' => $position.' Customer',
                 'email' => "customer{$index}@email.com",
                 'is_organizer' => false,
             ]);
 
             $organizer = \App\Models\User::factory()->create([
-                'name' => $position . ' organizer',
+                'name' => $position.' organizer',
                 'email' => "organizer{$index}@email.com",
                 'is_organizer' => true,
             ]);
 
             LoyaltyProgram::factory(random_int(1, 2))->create([
-                'organizer_id' => $organizer->id
+                'organizer_id' => $organizer->id,
             ]);
         }
 
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         User::query()->get()->each(function (User $user) use ($loyaltyPrograms) {
             if (random_int(0, 1)) {
                 $user->loyaltyPrograms()->attach([
-                    $loyaltyPrograms->random()->id => ['points' => 0]
+                    $loyaltyPrograms->random()->id => ['points' => 0],
                 ]);
             }
         });

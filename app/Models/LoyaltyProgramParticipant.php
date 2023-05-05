@@ -15,7 +15,7 @@ class LoyaltyProgramParticipant extends Pivot
     protected $fillable = [
         'loyalty_program_id',
         'participant_id',
-        'points'
+        'points',
     ];
 
     public function loyaltyProgram(): BelongsTo

@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_organizer' => 'boolean'
+        'is_organizer' => 'boolean',
     ];
 
     public function ownedLoyaltyPrograms(): HasMany
@@ -41,6 +41,7 @@ class User extends Authenticatable
     public function loyaltyPrograms(): BelongsToMany
     {
         return $this->belongsToMany(LoyaltyProgram::class, 'loyalty_participants', 'participant_id', 'loyalty_program_id')
+            ->withPivot('points')
             ->using(LoyaltyProgramParticipant::class)
             ->withTimestamps();
     }
