@@ -21,15 +21,14 @@ class LoyaltyProgram extends Model
 
     public function organizer(): BelongsTo
     {
-        return $this->belongsTo(User::class)
-            ->where('is_organizer', true);
+        return $this->belongsTo(User::class);
     }
 
     public function participants(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'loyalty_participants', 'participant_id', 'loyalty_program_id')
+        return $this->belongsToMany(User::class, 'participants', 'participant_id', 'loyalty_program_id')
             ->withPivot('points')
-            ->using(LoyaltyProgramParticipant::class)
+            ->using(Participant::class)
             ->withTimestamps();
     }
 }

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loyalty_participants', function (Blueprint $table) {
+        Schema::create('participants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('loyalty_program_id');
             $table->foreignId('participant_id');
-            $table->integer('points');
+            $table->unsignedInteger('points');
             $table->unique(['loyalty_program_id', 'participant_id']);
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loyalty_participants');
+        Schema::dropIfExists('participants');
     }
 };

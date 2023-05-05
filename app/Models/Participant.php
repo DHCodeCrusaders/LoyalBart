@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class LoyaltyProgramParticipant extends Pivot
+class Participant extends Pivot
 {
     use HasFactory;
 
-    protected $table = 'loyalty_participants';
+    protected $table = 'participants';
 
     protected $fillable = [
         'loyalty_program_id',

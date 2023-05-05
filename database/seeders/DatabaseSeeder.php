@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\LoyaltyProgram;
+use App\Models\Participant;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -16,13 +17,13 @@ class DatabaseSeeder extends Seeder
             $index = $idx + 1;
 
             \App\Models\User::factory()->create([
-                'name' => $position.' Customer',
+                'name' => $position . ' Customer',
                 'email' => "customer{$index}@email.com",
                 'is_organizer' => false,
             ]);
 
             $organizer = \App\Models\User::factory()->create([
-                'name' => $position.' organizer',
+                'name' => $position . ' organizer',
                 'email' => "organizer{$index}@email.com",
                 'is_organizer' => true,
             ]);
@@ -36,8 +37,10 @@ class DatabaseSeeder extends Seeder
 
         User::query()->get()->each(function (User $user) use ($loyaltyPrograms) {
             if (random_int(0, 1)) {
-                $user->loyaltyPrograms()->attach([
-                    $loyaltyPrograms->random()->id => ['points' => 0],
+                Participant::query()->create([
+                    'participant_id' => $user->id,
+                    'loyalty_program_id' => $loyaltyPrograms->random()->id,
+                    'points' => random_int(0, 100),
                 ]);
             }
         });

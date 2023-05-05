@@ -40,9 +40,14 @@ class User extends Authenticatable
 
     public function loyaltyPrograms(): BelongsToMany
     {
-        return $this->belongsToMany(LoyaltyProgram::class, 'loyalty_participants', 'participant_id', 'loyalty_program_id')
+        return $this->belongsToMany(LoyaltyProgram::class, 'participants', 'participant_id', 'loyalty_program_id')
             ->withPivot('points')
-            ->using(LoyaltyProgramParticipant::class)
+            ->using(Participant::class)
             ->withTimestamps();
+    }
+
+    public function initiatedBarters()
+    {
+        return $this->hasMany(Barter::class, 'initiator_id');
     }
 }
