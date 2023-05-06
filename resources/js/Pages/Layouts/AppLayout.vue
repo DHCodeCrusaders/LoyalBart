@@ -3,7 +3,8 @@ import MenuItem from '@/Components/MenuItem.vue';
 import useSettings from '@/compositions/useSettings';
 import { Icon } from '@iconify/vue';
 import { usePage } from '@inertiajs/vue3';
-import { computed } from 'vue'
+import { toast } from 'vue3-toastify';
+import { computed, watch } from 'vue'
 
 const { showHeader } = useSettings()
 
@@ -11,13 +12,19 @@ const messages = computed(() => {
     return usePage().props.flash
 })
 
-if (messages.value.success) {
-    console.log(messages.value.success);
-}
+watch(messages, (value) => {
+    if (value.success) {
+        toast.success(value.success, {
+            position: 'bottom-center'
+        })
+    }
 
-if (messages.value.error) {
-    console.log(messages.value.error);
-}
+    if (value.error) {
+        toast.error(value.error, {
+            position: 'bottom-center'
+        })
+    }
+})
 </script>
 
 <template>
@@ -40,7 +47,7 @@ if (messages.value.error) {
                 <Icon class="h-8 w-8" icon="solar:hand-stars-bold" />
                 <span>Loyalty</span>
                 </MenuItem>
-                <MenuItem :href="route('home')" :active="false">
+                <MenuItem :href="route('barters.index')" :active="route().current('barters.index')">
                 <Icon class="h-8 w-8" icon="ri:exchange-fill" />
                 <span>Barter</span>
                 </MenuItem>

@@ -20,6 +20,7 @@
         "confetti-js": "^0.0.18",
         "vue": "^3.2.47",
         "vue3-qr-reader": "^1.0.0",
+        "vue3-toastify": "^0.1.8",
         "ziggy-js": "^1.5.2"
     }
 }

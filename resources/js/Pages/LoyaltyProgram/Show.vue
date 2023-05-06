@@ -47,7 +47,7 @@ function initiateBarter() {
 
 function acceptBarter(barter) {
     if (confirm(`Are you sure you want to barter ${barter.requested_points} points of ${barter.requested_program.title} program for ${barter.offered_points} points of ${barter.offered_program.title} program?`)) {
-        form.post(route('barters.accept', barter.id), {
+        useForm({}).post(route('barters.accept', barter.id), {
             preserveScroll: true
         })
     }

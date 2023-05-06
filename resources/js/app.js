@@ -3,6 +3,7 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import "../css/app.css";
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m'
 import { InertiaProgress } from '@inertiajs/progress';
+import 'vue3-toastify/dist/index.css';
 
 createInertiaApp({
     resolve: (name) => {

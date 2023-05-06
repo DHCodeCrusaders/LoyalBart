@@ -16,7 +16,7 @@ class DeductPointsFromParticipant
         ])->first();
 
         if (! $participantData || $participantData->points < $points) {
-            throw new \Exception('Participant don\'t have enough points.');
+            throw new \Exception("Participant don't have enough points.");
         }
 
         $participantData->update([

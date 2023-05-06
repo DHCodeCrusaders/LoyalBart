@@ -29,7 +29,7 @@ class AcceptBarter
         ])->first();
 
         if (!$initiatorParticipantData || $initiatorParticipantData->points < $barter->offered_points) {
-            throw new \Exception("Initiator don\'t have enough points to barter.");
+            throw new \Exception("Initiator don't have enough points to barter.");
         }
 
         $acceptorParticipantData = Participant::query()->where([
@@ -38,7 +38,7 @@ class AcceptBarter
         ])->first();
 
         if (!$acceptorParticipantData || $acceptorParticipantData->points < $barter->requested_points) {
-            throw new \Exception("Acceptor don\'t have enough points to barter.");
+            throw new \Exception("Acceptor don't have enough points to barter.");
         }
 
         DB::transaction(function () use ($acceptor, $barter) {

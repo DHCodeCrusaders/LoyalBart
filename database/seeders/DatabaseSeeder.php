@@ -83,7 +83,10 @@ class DatabaseSeeder extends Seeder
             LoyaltyProgram::factory()->create($program);
         }
 
-        User::customer()->first()->loyaltyPrograms()->attach([1, 2, 3]);
-        User::customer()->skip(1)->first()->loyaltyPrograms()->attach([4, 5, 6]);
+        User::customer()->first()->loyaltyPrograms()
+            ->attach([1 => ['points' => 100], 2 => ['points' => 100], 3 => ['points' => 100]]);
+            
+        User::customer()->skip(1)->first()->loyaltyPrograms()
+            ->attach([4 => ['points' => 100], 5 => ['points' => 100], 6 => ['points' => 100]]);
     }
 }
