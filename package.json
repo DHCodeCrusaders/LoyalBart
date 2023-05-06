@@ -17,6 +17,7 @@
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.6",
         "@vitejs/plugin-vue": "^4.2.1",
+        "confetti-js": "^0.0.18",
         "vue": "^3.2.47",
         "vue3-qr-reader": "^1.0.0",
         "ziggy-js": "^1.5.2"

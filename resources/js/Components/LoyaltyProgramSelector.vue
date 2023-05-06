@@ -9,8 +9,8 @@ defineProps({
 </script>
 
 <template>
-    <select type="text" class="w-full border border-black rounded-sm px-3 py-2 disabled:opacity-50"
-        @change="$emit('update:modelValue', $event.target.value)" :value="modelValue">
+    <select class="w-full border border-black rounded-sm px-3 py-2 disabled:opacity-50"
+        @change="$emit('update:modelValue', Number($event.target.value))" :value="modelValue">
         <option v-for="(title, id) in programs" :value="id" :key="id">
             {{ title }}
         </option>

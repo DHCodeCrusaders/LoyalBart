@@ -1,4 +1,4 @@
-import { onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const showHeader = ref(true);
 
@@ -7,7 +7,9 @@ export default function useSettings() {
         showHeader,
 
         hideHeaderInThisPage() {
-            showHeader.value = false;
+            onMounted(() => {
+                showHeader.value = false;
+            });
 
             onUnmounted(() => {
                 showHeader.value = true;

@@ -18,7 +18,7 @@ class InitiateBarterController extends Controller
         ]);
 
         try {
-            $barter = app()->make(InitiateBarter::class)->handle(
+            app()->make(InitiateBarter::class)->handle(
                 Auth::user(),
                 LoyaltyProgram::find($data['offered_program']),
                 $data['offered_points'],
@@ -26,11 +26,9 @@ class InitiateBarterController extends Controller
                 $data['requested_points'],
             );
 
-            session(['success' => 'Barter initiated successfully..']);
-
-            return 'Hello baby!';
+            session()->flash('success', 'Barter initiated successfully..');
         } catch (\Exception $e) {
-            session(['error' => $e->getMessage()]);
+            session()->flash('error', $e->getMessage());
         }
 
         return back();

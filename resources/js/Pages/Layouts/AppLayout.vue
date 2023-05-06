@@ -9,8 +9,7 @@ const { showHeader } = useSettings()
 <template>
     <div class="h-screen max-w-xl mx-auto">
         <section class="flex flex-col items-center py-3 pb-5" v-if="showHeader">
-            <img class="h-16 w-16" src="/images/logo.png" alt="Logo">
-            <p class="text-gray-700 text-sm">Own your loyalty points</p>
+            <img class="h-24 w-24" src="/images/logo.png" alt="Logo">
         </section>
 
         <main class="pb-10">

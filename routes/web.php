@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcceptBarterController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HuntController;
 use App\Http\Controllers\InitiateBarterController;
@@ -15,7 +16,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('{program}', [LoyaltyProgramController::class, 'show'])->name('show');
     });
 
-    Route::post('barter/initiate', InitiateBarterController::class)->name('barter.initiate');
+    Route::group(['prefix' => 'baters', 'as' => 'barters.'], function () {
+        Route::post('initiate', InitiateBarterController::class)->name('initiate');
+        Route::post('{barter}/accept', AcceptBarterController::class)->name('accept');
+    });
 
     Route::get('hunts', [HuntController::class, 'index'])->name('hunts.index');
 

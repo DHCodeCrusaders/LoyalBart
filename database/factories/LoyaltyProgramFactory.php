@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +18,8 @@ class LoyaltyProgramFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(4),
-            'description' => $this->faker->paragraph(),
+            'title' => Str::title($this->faker->words(4, true)),
+            'description' => $this->faker->paragraph(10),
             'photo' => $this->faker->imageUrl(),
         ];
     }

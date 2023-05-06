@@ -69,5 +69,7 @@ class AcceptBarter
 
             // TODO: check if initiator/acceptor has other active barters with same program and invalidate them if necessary
         });
+
+        // TODO: notify initiator about the barter
     }
 }
