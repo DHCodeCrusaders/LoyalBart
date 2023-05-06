@@ -104,7 +104,7 @@ function close() {
                                     <button type="submit"
                                         class="mt-3 block rounded-sm py-2 text-white bg-black w-full disabled:bg-opacity-70"
                                         :disabled="form.processing || !form.answer">
-                                        Submit
+                                        {{ form.processing ? 'Thinking...' : 'Submit' }}
                                     </button>
                                 </form>
                             </DialogPanel>
