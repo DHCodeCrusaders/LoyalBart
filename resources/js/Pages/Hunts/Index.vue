@@ -47,7 +47,7 @@ const hunts = computed(() => {
                     :class="[hunt.has_started ? 'bg-green-100' : 'bg-gray-100 hover:bg-gray-200']">
 
                 <div>
-                    <img class="h-14 w-14 rounded-full" :src="hunt.photo" alt="Cover image">
+                    <img class="h-14 w-14 rounded-full object-cover object-center" :src="hunt.photo_url" alt="Cover image">
                 </div>
 
                 <div class="flex-1">

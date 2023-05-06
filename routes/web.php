@@ -33,6 +33,13 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'organizer', 'as' => 'organizer.'], function () {
+    Route::redirect('/', '/organizer/loyalty-programs')->name('home');
+
+    Route::group(['prefix' => 'loyalty-programs', 'as' => 'loyalty-programs.'], function () {
+        Route::get('/', [Organizer\LoyaltyProgramController::class, 'index'])->name('index');
+        Route::get('{program}', [Organizer\LoyaltyProgramController::class, 'show'])->name('show');
+    });
+
     Route::get('hunts', [Organizer\HuntController::class, 'index'])->name('hunts.index');
     Route::get('hunts/{id}', [Organizer\HuntController::class, 'show'])->name('hunts.show');
 });

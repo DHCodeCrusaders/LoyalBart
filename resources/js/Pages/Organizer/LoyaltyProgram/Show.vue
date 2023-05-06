@@ -9,9 +9,8 @@ import LoyaltyProgramSelector from '@/Components/LoyaltyProgramSelector.vue';
 
 const props = defineProps({
     program: Object,
-    barters: Array,
-    participation_data: Object,
-    programs: Object,
+    total_points: Number,
+    customers: Array,
 })
 
 const { hideHeaderInThisPage } = useSettings()
@@ -28,7 +27,7 @@ const form = useForm({
     requested_points: null,
 })
 
-const tabs = props.participation_data ? ['Active Barters', 'Initiate Barter'] : ['Active Barters']
+const tabs = ['Scan', 'All Customers'];
 
 function initiateBarter() {
     form.post(route('barters.initiate'), {
@@ -88,57 +87,6 @@ function goBack() {
 
             <div class="mt-5">
                 <template v-if="mode === 0">
-                    <div>
-                        <input type="text" class="w-full border border-black rounded-sm px-3 py-2" placeholder="Search..."
-                            v-model="search">
-                    </div>
-
-                    <div class="mt-20 text-sm text-gray-600 text-center" v-if="!barters.length">
-                        <div v-if="search">
-                            No barters found for search "{{ search }}"
-                        </div>
-                        <div v-else>
-                            No active barters found at the moment.
-                        </div>
-                    </div>
-
-                    <div class="mt-5 space-y-2">
-                        <div v-for="barter in barters" :key="barter.id"
-                            class="block bg-gray-100 hover:bg-gray-200 transition-all">
-                            <div class="p-4 flex items-center justify-between gap-x-5">
-                                <div>
-                                    <p>
-                                        <span class="font-semibold">Offered Program</span>:
-                                        <Link class="underline"
-                                            :href="route('loyalty-programs.show', barter.offered_program.id)">
-                                        {{ barter.offered_program.title }}
-                                        </Link>
-                                    </p>
-                                    <p>
-                                        <span class="font-semibold">Offered Points</span>:
-                                        {{ barter.offered_points }}
-                                    </p>
-                                    <p>
-                                        <span class="font-semibold">Requested Program</span>:
-                                        <Link class="underline"
-                                            :href="route('loyalty-programs.show', barter.requested_program.id)">
-                                        {{ barter.requested_program.title }}
-                                        </Link>
-                                    </p>
-                                    <span class="font-semibold">Requested Points</span>: {{ barter.requested_points }}<br>
-                                    <button
-                                        class="mt-2 bg-black py-2 px-5 text-white font-bold rounded-sm hover:bg-opacity-70"
-                                        @click="acceptBarter(barter)"
-                                        v-if="barter.initiator_id != $page.props.auth.user.id">
-                                        Accept Barter
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-
-                <template v-else>
                     <form class="space-y-5" @submit.prevent="initiateBarter">
                         <div>
                             <label for="text-sm">Offered Program</label>
@@ -161,13 +109,19 @@ function goBack() {
                             <input type="number" class="mt-1 w-full border border-black rounded-sm px-3 py-2" min="1"
                                 v-model="form.requested_points">
                         </div>
-
+    
                         <button type="submit"
                             class="block rounded-sm py-2 text-white bg-black w-full disabled:bg-opacity-70"
                             :disabled="form.processing || form.requested_program === form.offered_program || !form.offered_points || form.offered_points < 1 || !form.requested_program || !form.requested_points || form.requested_points < 1">
                             Initiate
                         </button>
                     </form>
+                </template>
+
+                <template v-else>
+                    <div v-for="customer in customers" :key="customer.id">
+                        
+                    </div>
                 </template>
             </div>
         </div>

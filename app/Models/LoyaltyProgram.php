@@ -26,7 +26,7 @@ class LoyaltyProgram extends Model
 
     public function participants(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'participants', 'participant_id', 'loyalty_program_id')
+        return $this->belongsToMany(User::class, 'participants', 'loyalty_program_id', 'participant_id')
             ->withPivot('points')
             ->using(Participant::class)
             ->withTimestamps();
