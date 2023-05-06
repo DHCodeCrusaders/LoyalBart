@@ -66,6 +66,8 @@ class AcceptBarter
                 $barter->acceptor,
                 $barter->requested_points
             );
+
+            // TODO: check if initiator/acceptor has other active barters with same program and invalidate them if necessary
         });
     }
 }

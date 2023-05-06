@@ -2,6 +2,8 @@
 import AppLayout from '../Layouts/AppLayout.vue';
 import { computed, ref } from 'vue'
 import { strLimit } from '@/utils'
+import { Link } from '@inertiajs/vue3';
+import Tab from '../../Components/Tab.vue';
 
 const props = defineProps({
     programs: Array
@@ -32,25 +34,11 @@ const programs = computed(() => {
 <template>
     <AppLayout>
         <div class="px-5">
-            <div class="flex justify-center">
-                <div class="border border-black flex">
-                    <button class="px-5" :class="[mode === 0 ? 'bg-black text-white' : 'hover:bg-gray-200']"
-                        @click="mode = 0">
-                        Participated
-                    </button>
-                    <button class="px-5" :class="[mode === 1 ? 'bg-black text-white' : 'hover:bg-gray-200']"
-                        @click="mode = 1">
-                        All
-                    </button>
-                </div>
-            </div>
+            <Tab v-model="mode" :tabs="['Participated', 'All']" />
 
             <div>
-                <div>
-                    <input type="text" class="w-full border border-black rounded-sm px-3 py-2 mt-5" placeholder="Search..."
-                        v-model="search">
-
-                </div>
+                <input type="text" class="w-full border border-black rounded-sm px-3 py-2 mt-5" placeholder="Search..."
+                    v-model="search">
 
             </div>
 
@@ -68,15 +56,19 @@ const programs = computed(() => {
                     </div>
                 </div>
 
-                <div class="p-5 flex gap-x-3 bg-gray-100 rounded-sm" :key="program.id" v-for="program in programs">
-                    <div>
-                        <img class="h-14 w-14 rounded-full" :src="program.photo" alt="Cover image">
-                    </div>
-                    <div class="flex-1">
-                        <p class="">{{ program.title }}</p>
-                        <p class="mt-1 text-gray-600 text-sm">{{ strLimit(program.description, 60) }}</p>
-                    </div>
+                <Link :href="route('loyalty-programs.show', program.id)"
+                    class="p-5 flex gap-x-3 bg-gray-100 rounded-sm hover:bg-gray-200 transition-all" :key="program.id"
+                    v-for="program in programs">
+                    
+                <div>
+                    <img class="h-14 w-14 rounded-full" :src="program.photo" alt="Cover image">
                 </div>
+                
+                <div class="flex-1">
+                    <p class="">{{ program.title }}</p>
+                    <p class="mt-1 text-gray-600 text-sm">{{ strLimit(program.description, 60) }}</p>
+                </div>
+                </Link>
             </div>
         </div>
 
