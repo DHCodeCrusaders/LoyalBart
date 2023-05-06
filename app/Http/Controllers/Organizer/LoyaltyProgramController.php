@@ -21,7 +21,7 @@ class LoyaltyProgramController extends Controller
     {
         return Inertia::render('Organizer/LoyaltyProgram/Show', [
             'program' => $program,
-            'total_points' => Participant::where('loyalty_program_id', $program->id)
+            'total_points' => (int) Participant::where('loyalty_program_id', $program->id)
                 ->sum('points'),
             'customers' => $program->participants()->orderBy('participants.points', 'DESC')->get(),
         ]);

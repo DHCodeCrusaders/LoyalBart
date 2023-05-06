@@ -16,7 +16,7 @@ class RedeemPointsForParticipant
             'loyalty_program_id' => $program->id,
         ])->first();
 
-        if (! $participantData || $participantData->points < $points) {
+        if (!$participantData || $participantData->points < $points) {
             throw new Exception("Customer don't have enough points");
         }
 

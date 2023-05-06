@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import useSettings from '@/compositions/useSettings';
 import { Icon } from '@iconify/vue';
 import Tab from '@/Components/Tab.vue';
@@ -46,10 +46,25 @@ function setUser(data) {
             name: data.name,
         };
     } catch (error) {
+
     }
 }
 
 function onSubmit() {
+    form.transform((data) => {
+        data.user = data.user.uuid;
+        return data;
+    })
+        .post(route('organizer.loyalty-programs.' + action.value, props.program.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                if (usePage().props.flash.error) {
+                    return;
+                }
+
+                form.reset();
+            },
+        })
 }
 </script>
 
@@ -64,14 +79,7 @@ function onSubmit() {
         </div>
 
         <div class="p-5 mt-2 bg-gray-100">
-            <div class="flex justify-between gap-x-4 items-start">
-                <h1 class="text-2xl font-semibold">{{ program.title }}</h1>
-                <div class="font-semibold inline-flex items-center gap-2 py-2 px-5 bg-yellow-100 rounded-full"
-                    v-if="participation_data">
-                    <span class="text-yellow-600">{{ participation_data.points }}</span>
-                    <Icon icon="ph:coin-vertical" class="h-6 w-6 text-yellow-500" :horizontalFlip="true" />
-                </div>
-            </div>
+            <h1 class="text-2xl font-semibold">{{ program.title }}</h1>
             <p class="mt-2 text-gray-600 text-sm">
                 {{ program.description }}
             </p>
@@ -113,7 +121,8 @@ function onSubmit() {
 
                         <div>
                             <label>Points</label>
-                            <input type="number" class="mt-1 w-full border border-black rounded-sm px-3 py-2" min="1">
+                            <input type="number" class="mt-1 w-full border border-black rounded-sm px-3 py-2" min="1"
+                                v-model="form.points">
                         </div>
 
                         <div>
@@ -125,7 +134,7 @@ function onSubmit() {
 
                         <button type="submit"
                             class="block rounded-sm py-2 text-white bg-black w-full disabled:bg-opacity-70"
-                            :disabled="form.processing">
+                            :disabled="form.processing || !form.user || !form.points || form.points < 0">
                             Submit
                         </button>
                     </form>

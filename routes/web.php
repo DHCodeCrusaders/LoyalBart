@@ -11,10 +11,9 @@ use App\Http\Controllers\ListBarterController;
 use App\Http\Controllers\AcceptBarterController;
 use App\Http\Controllers\InitiateBarterController;
 use App\Http\Controllers\LoyaltyProgramController;
+use App\Http\Middleware\IsOrganizer;
 
 Route::redirect('/', '/loyalty-programs')->name('home');
-
-Auth::login(User::first());
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'loyalty-programs', 'as' => 'loyalty-programs.'], function () {
@@ -36,12 +35,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('profile/{uuid?}', [ProfileController::class, 'show'])->name('profile.show');
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'organizer', 'as' => 'organizer.'], function () {
+Route::group(['middlewares' => ['auth', new IsOrganizer], 'prefix' => 'organizer', 'as' => 'organizer.'], function () {
     Route::redirect('/', '/organizer/loyalty-programs')->name('home');
 
     Route::group(['prefix' => 'loyalty-programs', 'as' => 'loyalty-programs.'], function () {
         Route::get('/', [Organizer\LoyaltyProgramController::class, 'index'])->name('index');
         Route::get('{program}', [Organizer\LoyaltyProgramController::class, 'show'])->name('show');
+        Route::post('{program}/credit', Organizer\CreditLoyaltyPointsController::class)->name('credit');
+        Route::post('{program}/redeem', Organizer\RedeemPointsController::class)->name('redeem');
     });
 
     Route::get('hunts', [Organizer\HuntController::class, 'index'])->name('hunts.index');
