@@ -1,5 +1,5 @@
 <script setup>
-import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { QrStream } from 'vue3-qr-reader/dist/vue3-qr-reader.common'
 import { ref } from 'vue'
 import { useForm } from '@inertiajs/vue3';
@@ -63,7 +63,12 @@ function onDecode(data) {
                                     </div>
                                 </div>
                                 <form v-else>
-                                    <h1 class="text-xl font-semibold">{{ riddle.riddle }}</h1>
+                                    <DialogTitle class="text-xl font-semibold text-center">Solve the riddle to win</DialogTitle>
+
+                                    <p class="mt-5">
+                                        {{ riddle.riddle }}
+                                    </p>
+
                                     <div class="mt-3">
                                         <input type="text" class="mt-1 w-full border border-black rounded-sm px-3 py-2"
                                             placeholder="Answer here..." v-model="form.answer">
