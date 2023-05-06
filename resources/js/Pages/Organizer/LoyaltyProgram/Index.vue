@@ -1,5 +1,5 @@
 <script setup>
-import AppLayout from '../Layouts/AppLayout.vue';
+import AppLayout from '@/Pages/Layouts/AppLayout.vue';
 import { computed, ref } from 'vue'
 import { strLimit } from '@/utils'
 import { Link } from '@inertiajs/vue3';

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('uuid')->unique();
             $table->string('title');
             $table->text('description');
-            $table->string('photo');
+            $table->text('photo');
             $table->foreignId('organizer_id');
             $table->timestamps();
         });

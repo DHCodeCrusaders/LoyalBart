@@ -1,5 +1,5 @@
 <script setup>
-import MenuItem from '../../Components/MenuItem.vue';
+import MenuItem from '@/Components/MenuItem.vue';
 import useSettings from '@/compositions/useSettings';
 import { Icon } from '@iconify/vue';
 import { usePage } from '@inertiajs/vue3';

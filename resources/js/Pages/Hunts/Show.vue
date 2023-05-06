@@ -61,7 +61,7 @@ function goBack() {
 <template>
     <AppLayout>
         <div class="p-2">
-            <div class="h-[300px] w-full bg-cover" :style="`background-image: url(${program.photo});`">
+            <div class="h-[300px] w-full" :style="`background-image: url(${program.photo});`">
                 <button class="inline-block bg-black text-white rounded-full p-2 m-2" @click="goBack">
                     <Icon class="h-6 w-6" icon="material-symbols:arrow-back-rounded" />
                 </button>

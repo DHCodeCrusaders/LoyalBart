@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('loyalty_program_id');
             $table->foreignId('participant_id');
-            $table->unsignedInteger('points');
+            $table->unsignedInteger('points')->default(0);
             $table->unique(['loyalty_program_id', 'participant_id']);
             $table->timestamps();
         });

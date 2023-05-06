@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcceptBarterController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Organizer;
 use App\Http\Controllers\HuntController;
 use App\Http\Controllers\InitiateBarterController;
 use App\Http\Controllers\LoyaltyProgramController;
@@ -22,10 +23,16 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('hunts', [HuntController::class, 'index'])->name('hunts.index');
+    Route::get('hunts/{id}', [HuntController::class, 'show'])->name('hunts.show');
 
     Route::post('logout', [AuthController::class, 'destroy'])->name('logout');
 
     Route::get('profile/{uuid?}', [ProfileController::class, 'show'])->name('profile.show');
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'organizer', 'as' => 'organizer.'], function () {
+    Route::get('hunts', [Organizer\HuntController::class, 'index'])->name('hunts.index');
+    Route::get('hunts/{id}', [Organizer\HuntController::class, 'show'])->name('hunts.show');
 });
 
 Route::get('login', [AuthController::class, 'show'])

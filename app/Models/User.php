@@ -33,6 +33,11 @@ class User extends Authenticatable
         'is_organizer' => 'boolean',
     ];
 
+    public function scopeCustomer($q)
+    {
+        return $q->where('is_organizer', false);
+    }
+
     public function ownedLoyaltyPrograms(): HasMany
     {
         return $this->hasMany(LoyaltyProgram::class, 'organizer_id');

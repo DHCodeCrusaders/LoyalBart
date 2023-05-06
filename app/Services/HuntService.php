@@ -27,20 +27,12 @@ class HuntService
     {
         $data = $this->client->get('list')->throw()->json('data');
 
-        $data = array_filter($data, fn ($hunt) => Carbon::parse($hunt['end_date'])->isPast());
-
         return $data;
     }
 
     public function huntDetail(int $huntId): array
     {
-        $hunt = reset(Arr::where($this->hunts(), fn ($hunt) => $hunt['hunt_id'] === $huntId));
-
-        abort_if(!$hunt, 404);
-
-        $hunt['treasures'] = $this->client->get('treasure/list', [
-            'hunt_id' => $huntId,
-        ])->throw()->json('data');
+        $hunt = $this->client->get($huntId)->throw()->json('data');
 
         return $hunt;
     }

@@ -1,6 +1,6 @@
 <script setup>
 import { Link, useForm, usePage } from '@inertiajs/vue3';
-import AppLayout from '../Layouts/AppLayout.vue';
+import AppLayout from '@/Pages/Layouts/AppLayout.vue';
 import useSettings from '@/compositions/useSettings';
 import { Icon } from '@iconify/vue';
 import Tab from '@/Components/Tab.vue';
