@@ -10,7 +10,7 @@ defineProps({
 
 <template>
     <div class="w-20 flex items-center justify-center h-full" :class="[active ? 'bg-black text-white' : '']">
-        <Link :href="href" class="px-4">
+        <Link :href="href" class="px-4 flex flex-col items-center space-y-1">
         <slot></slot>
         </Link>
     </div>

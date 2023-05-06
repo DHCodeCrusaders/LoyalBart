@@ -1,6 +1,7 @@
 <script setup>
 import MenuItem from '../../Components/MenuItem.vue';
 import useSettings from '@/compositions/useSettings';
+import { Icon } from '@iconify/vue';
 
 const { showHeader } = useSettings()
 </script>
@@ -19,20 +20,24 @@ const { showHeader } = useSettings()
         </main>
 
         <section>
-            <div class="h-14"></div>
+            <div class="h-16"></div>
             <div
-                class="bg-white fixed bottom-0 w-full max-w-xl border-t border-black text-black text-xs flex justify-around h-14 items-center px-6">
+                class="bg-white fixed bottom-0 w-full max-w-xl border-t border-black text-black text-xs flex justify-around h-16 items-center px-6">
                 <MenuItem :href="route('loyalty-programs.index')" :active="route().current('loyalty-programs.*')">
-                Loyalty
+                <Icon class="h-8 w-8" icon="solar:hand-stars-bold" />
+                <span>Loyalty</span>
                 </MenuItem>
                 <MenuItem :href="route('home')" :active="false">
-                Barter
+                <Icon class="h-8 w-8" icon="ri:exchange-fill" />
+                <span>Barter</span>
                 </MenuItem>
                 <MenuItem :href="route('hunts.index')" :active="route().current('hunts.*')">
-                Hunt
+                <Icon class="h-8 w-8" icon="mdi:treasure-chest" />
+                <span>Hunt</span>
                 </MenuItem>
-                <MenuItem :href="route('home')" :active="false">
-                Account
+                <MenuItem :href="route('profile.show')" :active="route().current('profile.show')">
+                <Icon class="h-8 w-8" icon="mdi:user-circle" />
+                <span>Account</span>
                 </MenuItem>
             </div>
         </section>

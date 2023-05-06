@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
@@ -26,6 +27,8 @@ class HuntService
     {
         $data = $this->client->get('list')->throw()->json('data');
 
+        $data = array_filter($data, fn ($hunt) => Carbon::parse($hunt['end_date'])->isPast());
+
         return $data;
     }
 
@@ -33,7 +36,7 @@ class HuntService
     {
         $hunt = reset(Arr::where($this->hunts(), fn ($hunt) => $hunt['hunt_id'] === $huntId));
 
-        abort_if(! $hunt, 404);
+        abort_if(!$hunt, 404);
 
         $hunt['treasures'] = $this->client->get('treasure/list', [
             'hunt_id' => $huntId,

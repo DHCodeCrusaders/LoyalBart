@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HuntController;
 use App\Http\Controllers\InitiateBarterController;
 use App\Http\Controllers\LoyaltyProgramController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/loyalty-programs')->name('home');
@@ -19,6 +20,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('hunts', [HuntController::class, 'index'])->name('hunts.index');
 
     Route::post('logout', [AuthController::class, 'destroy'])->name('logout');
+
+    Route::get('profile/{uuid?}', [ProfileController::class, 'show'])->name('profile.show');
 });
 
 Route::get('login', [AuthController::class, 'show'])
