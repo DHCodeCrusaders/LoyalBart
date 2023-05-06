@@ -45,7 +45,7 @@ class LoyaltyProgramController extends Controller
             'barters' => Barter::query()
                 ->active()
                 ->where(
-                    fn ($q) => $q->where('offered_program_id', $program->id)->orWhere('offered_program_id', $program->id)
+                    fn ($q) => $q->where('offered_program_id', $program->id)->orWhere('requested_program_id', $program->id)
                 )
                 ->with(['initiator', 'offeredProgram', 'requestedProgram'])
                 ->orderBy('created_at', 'desc')

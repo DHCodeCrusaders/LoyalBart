@@ -2,8 +2,22 @@
 import MenuItem from '../../Components/MenuItem.vue';
 import useSettings from '@/compositions/useSettings';
 import { Icon } from '@iconify/vue';
+import { usePage } from '@inertiajs/vue3';
+import { computed } from 'vue'
 
 const { showHeader } = useSettings()
+
+const messages = computed(() => {
+    return usePage().props.flash
+})
+
+if (messages.value.success) {
+    console.log(messages.value.success);
+}
+
+if (messages.value.error) {
+    console.log(messages.value.error);
+}
 </script>
 
 <template>

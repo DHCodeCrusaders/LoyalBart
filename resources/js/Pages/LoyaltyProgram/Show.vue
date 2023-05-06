@@ -128,7 +128,8 @@ function goBack() {
                                     <span class="font-semibold">Requested Points</span>: {{ barter.requested_points }}<br>
                                     <button
                                         class="mt-2 bg-black py-2 px-5 text-white font-bold rounded-sm hover:bg-opacity-70"
-                                        @click="acceptBarter(barter)">
+                                        @click="acceptBarter(barter)"
+                                        v-if="barter.initiator_id != $page.props.auth.user.id">
                                         Accept Barter
                                     </button>
                                 </div>

@@ -19,12 +19,16 @@ class AcceptBarter
             throw new \Exception('Barter has expired.');
         }
 
+        if ($barter->initiator_id === $acceptor->id) {
+            throw new \Exception('You cannot accept your own barter.');
+        }
+
         $initiatorParticipantData = Participant::query()->where([
-            'participant_id' => $acceptor->id,
-            'loyalty_program_id' => $barter->requested_program_id,
+            'participant_id' => $barter->initiator_id,
+            'loyalty_program_id' => $barter->offered_program_id,
         ])->first();
 
-        if (! $initiatorParticipantData || $initiatorParticipantData->points < $barter->offered_points) {
+        if (!$initiatorParticipantData || $initiatorParticipantData->points < $barter->offered_points) {
             throw new \Exception("Initiator don\'t have enough points to barter.");
         }
 
@@ -33,7 +37,7 @@ class AcceptBarter
             'loyalty_program_id' => $barter->requested_program_id,
         ])->first();
 
-        if (! $acceptorParticipantData || $acceptorParticipantData->points < $barter->requested_points) {
+        if (!$acceptorParticipantData || $acceptorParticipantData->points < $barter->requested_points) {
             throw new \Exception("Acceptor don\'t have enough points to barter.");
         }
 
