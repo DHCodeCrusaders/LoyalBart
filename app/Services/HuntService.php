@@ -36,4 +36,14 @@ class HuntService
 
         return $hunt;
     }
+
+    public function claimHunt(string $token, ?string $answer = null)
+    {
+        $hunt = $this->client->post('claim', [
+            'token' => $token,
+            'answer' => $answer,
+        ])->throw()->json('data');
+
+        return $hunt;
+    }
 }

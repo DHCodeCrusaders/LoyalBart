@@ -31,4 +31,15 @@ class HuntController extends Controller
             'hunt' => $hunt,
         ]);
     }
+
+    public function claim()
+    {
+        $service = app(HuntService::class, ['user' => Auth::user()]);
+
+        $hunt = $service->claimHunt(request('token'), request('answer'));
+
+        return Inertia::render('Hunts/Claim', [
+            'hunt' => $hunt,
+        ]);
+    }
 }
