@@ -47,7 +47,7 @@ const programs = computed(() => {
                     v-for="program in programs">
 
                 <div>
-                    <img class="h-14 w-14 rounded-full object-cover" :src="program.photo" alt="Cover image">
+                    <img class="h-14 w-14 rounded-full object-cover object-center" :src="program.photo" alt="Cover image">
                 </div>
 
                 <div class="flex-1">

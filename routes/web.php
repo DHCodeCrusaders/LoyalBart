@@ -1,8 +1,6 @@
 <?php
 
-use App\Models\User;
 use App\Http\Controllers\Organizer;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HuntController;

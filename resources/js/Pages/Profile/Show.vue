@@ -18,7 +18,7 @@ onMounted(() => {
         <div class="px-5">
             <div class="flex justify-center bg-black rounded-sm text-white p-5">
                 <div class="flex justify-between gap-x-5">
-                    <img class="h-32 w-32 rounded-full object-cover"
+                    <img class="h-32 w-32 rounded-full object-cover object-center"
                         :src="user.photo || 'https://images.pexels.com/photos/1553783/pexels-photo-1553783.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'"
                         alt="">
 

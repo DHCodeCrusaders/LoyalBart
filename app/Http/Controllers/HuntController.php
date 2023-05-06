@@ -27,8 +27,6 @@ class HuntController extends Controller
 
         $hunt = $service->huntDetail($id);
 
-        dd($hunt);
-
         return Inertia::render('Hunts/Show', [
             'hunt' => $hunt,
         ]);
