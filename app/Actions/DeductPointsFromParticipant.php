@@ -15,7 +15,7 @@ class DeductPointsFromParticipant
             'loyalty_program_id' => $program->id,
         ])->first();
 
-        if (!$participantData || $participantData->points < $points) {
+        if (! $participantData || $participantData->points < $points) {
             throw new \Exception('Participant don\'t have enough points.');
         }
 

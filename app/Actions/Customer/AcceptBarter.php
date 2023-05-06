@@ -4,9 +4,9 @@ namespace App\Actions\Customer;
 
 use App\Actions\CreditPointsToParticipant;
 use App\Actions\DeductPointsFromParticipant;
-use App\Models\User;
 use App\Models\Barter;
 use App\Models\Participant;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class AcceptBarter
@@ -16,7 +16,7 @@ class AcceptBarter
         User $acceptor
     ): void {
         if ($barter->hasExpired()) {
-            throw new \Exception("Barter has expired.");
+            throw new \Exception('Barter has expired.');
         }
 
         $initiatorParticipantData = Participant::query()->where([
@@ -24,7 +24,7 @@ class AcceptBarter
             'loyalty_program_id' => $barter->requested_program_id,
         ])->first();
 
-        if (!$initiatorParticipantData || $initiatorParticipantData->points < $barter->offered_points) {
+        if (! $initiatorParticipantData || $initiatorParticipantData->points < $barter->offered_points) {
             throw new \Exception("Initiator don\'t have enough points to barter.");
         }
 
@@ -33,7 +33,7 @@ class AcceptBarter
             'loyalty_program_id' => $barter->requested_program_id,
         ])->first();
 
-        if (!$acceptorParticipantData || $acceptorParticipantData->points < $barter->requested_points) {
+        if (! $acceptorParticipantData || $acceptorParticipantData->points < $barter->requested_points) {
             throw new \Exception("Acceptor don\'t have enough points to barter.");
         }
 

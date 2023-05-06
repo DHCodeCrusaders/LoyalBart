@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HuntController;
 use App\Http\Controllers\InitiateBarterController;
 use App\Http\Controllers\LoyaltyProgramController;
+use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/loyalty-programs')->name('home');
 

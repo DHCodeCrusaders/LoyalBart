@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use App\Models\Barter;
-use App\Models\Participant;
 use App\Models\LoyaltyProgram;
-use App\Http\Controllers\Controller;
+use App\Models\Participant;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class LoyaltyProgramController extends Controller
 {
@@ -24,8 +23,9 @@ class LoyaltyProgramController extends Controller
                 ->get()
                 ->map(function ($item) use ($userPrograms) {
                     $item->is_participated = in_array($item->id, $userPrograms);
+
                     return $item;
-                })
+                }),
         ]);
     }
 
@@ -33,15 +33,15 @@ class LoyaltyProgramController extends Controller
     {
         return Inertia::render('LoyaltyProgram/Show', [
             'program' => LoyaltyProgram::find($program->id),
-            
+
             'participation_data' => Participant::query()
                 ->where('participant_id', Auth::id())
                 ->where('loyalty_program_id', $program->id)
                 ->first(),
-                
+
             'programs' => LoyaltyProgram::query()
                 ->pluck('title', 'id'),
-                
+
             'barters' => Barter::query()
                 ->active()
                 ->where(
@@ -49,7 +49,7 @@ class LoyaltyProgramController extends Controller
                 )
                 ->with(['initiator', 'offeredProgram', 'requestedProgram'])
                 ->orderBy('created_at', 'desc')
-                ->get()
+                ->get(),
         ]);
     }
 }

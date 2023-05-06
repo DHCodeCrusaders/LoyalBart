@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Models\User;
 use Firebase\JWT\JWT;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 
 class HuntService
 {
@@ -33,7 +33,7 @@ class HuntService
     {
         $hunt = reset(Arr::where($this->hunts(), fn ($hunt) => $hunt['hunt_id'] === $huntId));
 
-        abort_if(!$hunt, 404);
+        abort_if(! $hunt, 404);
 
         $hunt['treasures'] = $this->client->get('treasure/list', [
             'hunt_id' => $huntId,

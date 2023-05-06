@@ -15,7 +15,7 @@ class CreditPointsToParticipant
             'loyalty_program_id' => $program->id,
         ])->first();
 
-        if (!$participantData) {
+        if (! $participantData) {
             Participant::query()->create([
                 'participant_id' => $participant->id,
                 'loyalty_program_id' => $program->id,

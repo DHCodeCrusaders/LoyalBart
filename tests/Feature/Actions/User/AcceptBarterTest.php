@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Actions\User;
 
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Barter;
-use App\Models\LoyaltyProgram;
+use App\Actions\CreditPointsToParticipant;
 use App\Actions\Customer\AcceptBarter;
 use App\Actions\Customer\InitiateBarter;
-use App\Actions\CreditPointsToParticipant;
+use App\Models\Barter;
+use App\Models\LoyaltyProgram;
 use App\Models\Participant;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class AcceptBarterTest extends TestCase
 {

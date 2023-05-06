@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LoyaltyProgram;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Actions\Customer\InitiateBarter;
+use App\Models\LoyaltyProgram;
+use Illuminate\Support\Facades\Auth;
 
 class InitiateBarterController extends Controller
 {
@@ -29,7 +28,7 @@ class InitiateBarterController extends Controller
 
             session(['success' => 'Barter initiated successfully..']);
 
-            return "Hello baby!";
+            return 'Hello baby!';
         } catch (\Exception $e) {
             session(['error' => $e->getMessage()]);
         }

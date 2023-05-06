@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
             $index = $idx + 1;
 
             \App\Models\User::factory()->create([
-                'name' => $position . ' Customer',
+                'name' => $position.' Customer',
                 'email' => "customer{$index}@email.com",
                 'is_organizer' => false,
             ]);
 
             $organizer = \App\Models\User::factory()->create([
-                'name' => $position . ' organizer',
+                'name' => $position.' organizer',
                 'email' => "organizer{$index}@email.com",
                 'is_organizer' => true,
             ]);

@@ -2,9 +2,9 @@
 
 namespace App\Actions\Customer;
 
-use App\Models\User;
 use App\Models\Barter;
 use App\Models\LoyaltyProgram;
+use App\Models\User;
 
 class InitiateBarter
 {
@@ -17,8 +17,8 @@ class InitiateBarter
     ): Barter {
         $program = $initiator->loyaltyPrograms()->find($OfferedProgram->id);
 
-        if (!$program || $program->pivot->points < $offeredPoints) {
-            throw new \Exception("User dont have enough points to barter.");
+        if (! $program || $program->pivot->points < $offeredPoints) {
+            throw new \Exception('User dont have enough points to barter.');
         }
 
         $barter = $initiator->initiatedBarters()->create([

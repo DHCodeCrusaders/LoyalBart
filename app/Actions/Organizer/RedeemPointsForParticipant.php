@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\User;
-use App\Models\Participant;
 use App\Models\LoyaltyProgram;
+use App\Models\Participant;
+use App\Models\User;
 
 class RedeemPointsForParticipant
 {
@@ -16,7 +16,7 @@ class RedeemPointsForParticipant
             'loyalty_program_id' => $program->id,
         ])->first();
 
-        if (!$participantData || $participantData->points < $points) {
+        if (! $participantData || $participantData->points < $points) {
             throw new Exception('Participant don\'t have enough points');
         }
 
