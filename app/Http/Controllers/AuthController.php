@@ -13,9 +13,17 @@ class AuthController extends Controller
         return Inertia::render('Auth/Login');
     }
 
-    public function store() {
+    public function store()
+    {
         Auth::login(User::first());
-    
+
         return to_route('home');
+    }
+
+    public function destroy()
+    {
+        Auth::logout();
+
+        return to_route('login');
     }
 }

@@ -28,7 +28,7 @@ const { showHeader } = useSettings()
                 <MenuItem :href="route('home')" :active="false">
                 Barter
                 </MenuItem>
-                <MenuItem :href="route('home')" :active="false">
+                <MenuItem :href="route('hunts.index')" :active="route().current('hunts.*')">
                 Hunt
                 </MenuItem>
                 <MenuItem :href="route('home')" :active="false">
