@@ -8,7 +8,7 @@ const form = useForm({
 </script>
 
 <template>
-    <div class="h-screen grid place-items-center max-w-xl mx-auto">
+    <div class="h-screen grid place-items-center max-w-xl mx-auto px-5">
         <form class="w-full mx-auto space-y-5" @submit.prevent="form.post(route('login'))">
             <h1 class="text-center text-4xl font-semibold">Login Form</h1>
 

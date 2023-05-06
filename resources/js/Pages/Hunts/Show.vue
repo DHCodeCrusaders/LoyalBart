@@ -1,17 +1,13 @@
 <script setup>
-import { Link, useForm, usePage } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import useSettings from '@/compositions/useSettings';
 import { Icon } from '@iconify/vue';
 import Tab from '@/Components/Tab.vue';
 import { ref } from 'vue';
-import { strLimit } from "@/utils"
+import SolveTreasure from './SolveTreasure.vue'
 
 const props = defineProps({
     hunt: Object,
-    barters: Array,
-    participation_data: Object,
-    programs: Object,
 })
 
 const { hideHeaderInThisPage } = useSettings()
@@ -20,18 +16,11 @@ hideHeaderInThisPage();
 
 const mode = ref(0);
 
-const form = useForm({
-    offered_program: props.hunt.hunt_id,
-    offered_points: 10,
-    requested_program: null,
-    requested_points: null,
-})
-
-const tabs = props.participation_data ? ['Active Barters', 'Initiate Barter'] : ['Active Barters']
-
 function goBack() {
     window.history.back();
 }
+
+const solveTreasure = ref(null)
 </script>
 
 <template>
@@ -60,20 +49,24 @@ function goBack() {
                     Have some patience, wait till the hunt begins 😉...
                 </p>
 
-                <Link href="#" class="block p-5 bg-gray-100 hover:bg-gray-200 rounded-sm" v-for="treasure in hunt.treasures"
-                    :key="treasure.treasure_id">
-                <div class="flex gap-x-5">
-                    <a :href="treasure.photo_url" class="block" target="_blank" @click="$event.stopImmediatePropagation()">
-                        <img class="h-20 w-20 rounded-full object-cover object-center" :src="treasure.photo_url" alt="">
-                    </a>
-                    <div class="flex-1">
-                        <p class="text-lg font-semibold">{{ treasure.title }}</p>
-                        <p class="text-gray-600 text-sm">{{ treasure.description }}</p>
+                <button @click="solveTreasure = treasure"
+                    class="text-left block p-5 bg-gray-100 hover:bg-gray-200 rounded-sm disabled:opacity-60"
+                    v-for="treasure in hunt.treasures" :key="treasure.treasure_id" :disabled="treasure.winner_id">
+                    <div class="flex gap-x-5">
+                        <a :href="treasure.photo_url" class="block" target="_blank"
+                            @click="$event.stopImmediatePropagation()">
+                            <img class="h-20 w-20 rounded-full object-cover object-center" :src="treasure.photo_url" alt="">
+                        </a>
+                        <div class="flex-1">
+                            <p class="text-sm bg-red-200 inline-block text-red-500 px-2 py-1 rounded-full" v-if="treasure.winner_id">Already claimed</p>
+                            <p class="text-lg font-semibold">{{ treasure.title }}</p>
+                            <p class="text-gray-600 text-sm">{{ treasure.description }}</p>
+                        </div>
                     </div>
-                </div>
-                </Link>
+                </button>
             </div>
         </div>
 
+        <SolveTreasure :treasure="solveTreasure" @close="solveTreasure = null"></SolveTreasure>
     </AppLayout>
 </template>
