@@ -58,7 +58,13 @@ const solveTreasure = ref(null)
                             <img class="h-20 w-20 rounded-full object-cover object-center" :src="treasure.photo_url" alt="">
                         </a>
                         <div class="flex-1">
-                            <p class="text-sm bg-red-200 inline-block text-red-500 px-2 py-1 rounded-full" v-if="treasure.winner_id">Already claimed</p>
+                            <p class="text-sm bg-green-200 inline-block text-green-700 px-2 py-1 rounded-full"
+                                v-if="treasure.winner_id === $page.props.auth.user.id">
+                                You claimed this treasure
+                            </p>
+                            
+                            <p class="text-sm bg-red-200 inline-block text-red-600 px-2 py-1 rounded-full"
+                                v-else-if="treasure.winner_id">Already claimed by someone else</p>
                             <p class="text-lg font-semibold">{{ treasure.title }}</p>
                             <p class="text-gray-600 text-sm">{{ treasure.description }}</p>
                         </div>

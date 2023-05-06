@@ -11,12 +11,12 @@ const props = defineProps({
     }
 })
 
-defineEmits(['close']);
+const emit = defineEmits(['close']);
 
 let riddle = ref(null)
 
 let form = useForm({
-    treasure_secret: props.treasure?.token,
+    riddle_token: null,
     answer: null
 })
 
@@ -24,24 +24,46 @@ function onDecode(data) {
     try {
         data = JSON.parse(data)
 
-        if (!data.token || data.type !== 'treasure' || data.token !== props.treasure.token) {
+        if (!data.token || data.type !== 'treasure') {
             throw new Error('Invalid QR Code')
         }
 
+        if (data.token !== props.treasure.token) {
+            alert("This is not the correct treasure!")
+            return
+        }
+
         if (props.treasure.riddle) {
+            form.riddle_token = props.treasure.token
             riddle.value = props.treasure.riddle;
             return;
         }
 
+        submit()
     } catch {
     }
+}
+
+function submit() {
+    form.post(route('hunts.claim'), {
+        preserveState: true,
+        onSuccess: () => {
+            close()
+        }
+    })
+}
+
+function close() {
+    form.reset()
+    riddle = null
+    emit('close')
 }
 </script>
 
 <template>
     <Teleport to="#modals">
         <TransitionRoot as="template" :show="treasure ? true : false">
-            <Dialog as="div" class="relative z-10" @close="$emit('close'); riddle = null;">
+            <Dialog as="div" class="relative z-10" @close="close()">
                 <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
                     leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -62,8 +84,9 @@ function onDecode(data) {
                                         <QrStream @decode="onDecode"></QrStream>
                                     </div>
                                 </div>
-                                <form v-else>
-                                    <DialogTitle class="text-xl font-semibold text-center">Solve the riddle to win</DialogTitle>
+                                <form v-else @submit.prevent="submit">
+                                    <DialogTitle class="text-xl font-semibold text-center">Solve the riddle to win
+                                    </DialogTitle>
 
                                     <p class="mt-5">
                                         {{ riddle.riddle }}
@@ -80,7 +103,7 @@ function onDecode(data) {
 
                                     <button type="submit"
                                         class="mt-3 block rounded-sm py-2 text-white bg-black w-full disabled:bg-opacity-70"
-                                        :disabled="form.processing">
+                                        :disabled="form.processing || !form.answer">
                                         Submit
                                     </button>
                                 </form>

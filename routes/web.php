@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('hunts', [HuntController::class, 'index'])->name('hunts.index');
     Route::get('hunts/{id}', [HuntController::class, 'show'])->name('hunts.show');
-    Route::get('hunts/claim', [HuntController::class, 'claim'])->name('hunts.claim');
+    Route::post('hunts/claim', [HuntController::class, 'claim'])->name('hunts.claim');
 
     Route::post('logout', [AuthController::class, 'destroy'])->name('logout');
 

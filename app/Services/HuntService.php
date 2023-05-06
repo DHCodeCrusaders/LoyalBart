@@ -8,6 +8,8 @@ use Firebase\JWT\JWT;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Validator;
 
 class HuntService
 {
@@ -39,11 +41,17 @@ class HuntService
 
     public function claimHunt(string $token, ?string $answer = null)
     {
-        $hunt = $this->client->post('claim', [
-            'token' => $token,
-            'answer' => $answer,
-        ])->throw()->json('data');
+        $response = $this->client->post('treasure/claim', [
+            'treasure_secret' => $token,
+            'riddle_answer' => $answer,
+        ]);
 
-        return $hunt;
+        if ($response->ok()) {
+            return $response->json('message');
+        }
+
+        throw ValidationException::withMessages([
+            'answer' => $response->json('message'),
+        ]);
     }
 }

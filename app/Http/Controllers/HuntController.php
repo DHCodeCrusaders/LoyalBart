@@ -36,10 +36,8 @@ class HuntController extends Controller
     {
         $service = app(HuntService::class, ['user' => Auth::user()]);
 
-        $hunt = $service->claimHunt(request('token'), request('answer'));
+        session()->flash('success', $service->claimHunt(request('riddle_token'), request('answer')));
 
-        return Inertia::render('Hunts/Claim', [
-            'hunt' => $hunt,
-        ]);
+        return back();
     }
 }
