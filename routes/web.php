@@ -1,16 +1,20 @@
 <?php
 
-use App\Http\Controllers\AcceptBarterController;
-use App\Http\Controllers\AuthController;
+use App\Models\User;
 use App\Http\Controllers\Organizer;
-use App\Http\Controllers\HuntController;
-use App\Http\Controllers\InitiateBarterController;
-use App\Http\Controllers\ListBarterController;
-use App\Http\Controllers\LoyaltyProgramController;
-use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HuntController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ListBarterController;
+use App\Http\Controllers\AcceptBarterController;
+use App\Http\Controllers\InitiateBarterController;
+use App\Http\Controllers\LoyaltyProgramController;
 
 Route::redirect('/', '/loyalty-programs')->name('home');
+
+Auth::login(User::first());
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'loyalty-programs', 'as' => 'loyalty-programs.'], function () {

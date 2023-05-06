@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Organizer;
 
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\LoyaltyProgram;
 use App\Models\Participant;
@@ -24,7 +23,7 @@ class LoyaltyProgramController extends Controller
             'program' => $program,
             'total_points' => Participant::where('loyalty_program_id', $program->id)
                 ->sum('points'),
-            'customers' => $program->participants()->orderBy('participants.points')->get(),
+            'customers' => $program->participants()->orderBy('participants.points', 'DESC')->get(),
         ]);
     }
 }

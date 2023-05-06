@@ -3,6 +3,7 @@ import AppLayout from '@/Pages/Layouts/AppLayout.vue';
 import { computed, ref } from 'vue'
 import { strLimit } from '@/utils'
 import { Link } from '@inertiajs/vue3';
+import OrganizerLayout from '../../Layouts/OrganizerLayout.vue';
 
 const props = defineProps({
     programs: Array
@@ -24,7 +25,7 @@ const programs = computed(() => {
 </script>
 
 <template>
-    <AppLayout>
+    <OrganizerLayout>
         <div class="px-5">
             <div>
                 <input type="text" class="w-full border border-black rounded-sm px-3 py-2" placeholder="Search..."
@@ -57,5 +58,5 @@ const programs = computed(() => {
             </div>
         </div>
 
-    </AppLayout>
+    </OrganizerLayout>
 </template>

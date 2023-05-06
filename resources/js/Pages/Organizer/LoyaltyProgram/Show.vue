@@ -1,11 +1,11 @@
 <script setup>
-import { Link, useForm, usePage } from '@inertiajs/vue3';
-import AppLayout from '@/Pages/Layouts/AppLayout.vue';
+import { useForm } from '@inertiajs/vue3';
 import useSettings from '@/compositions/useSettings';
 import { Icon } from '@iconify/vue';
 import Tab from '@/Components/Tab.vue';
 import { ref } from 'vue';
-import LoyaltyProgramSelector from '@/Components/LoyaltyProgramSelector.vue';
+import OrganizerLayout from '@/Pages/Layouts/OrganizerLayout.vue';
+import { QrStream } from 'vue3-qr-reader/dist/vue3-qr-reader.common'
 
 const props = defineProps({
     program: Object,
@@ -18,47 +18,43 @@ const { hideHeaderInThisPage } = useSettings()
 hideHeaderInThisPage();
 
 const mode = ref(0);
-const search = ref('');
+
+const action = ref('credit');
 
 const form = useForm({
-    offered_program: props.program.id,
-    offered_points: 10,
-    requested_program: null,
-    requested_points: null,
+    points: 10,
+    user: null,
+    note: null,
 })
 
 const tabs = ['Scan', 'All Customers'];
 
-function initiateBarter() {
-    form.post(route('barters.initiate'), {
-        preserveScroll: true,
-        onSuccess: () => {
-            if (usePage().props.flash.error) {
-                mode.value = 1;
-                return;
-            }
-
-            form.reset();
-            mode.value = 0;
-        }
-    })
+function goBack() {
+    window.history.back();
 }
 
-function acceptBarter(barter) {
-    if (confirm(`Are you sure you want to barter ${barter.requested_points} points of ${barter.requested_program.title} program for ${barter.offered_points} points of ${barter.offered_program.title} program?`)) {
-        form.post(route('barters.accept', barter.id), {
-            preserveScroll: true
-        })
+function setUser(data) {
+    try {
+        data = JSON.parse(data);
+
+        if (data.type !== 'user' || !data.uuid || !data.name) {
+            throw new Error('Invalid QR Code');
+        }
+
+        form.user = {
+            uuid: data.uuid,
+            name: data.name,
+        };
+    } catch (error) {
     }
 }
 
-function goBack() {
-    window.history.back();
+function onSubmit() {
 }
 </script>
 
 <template>
-    <AppLayout>
+    <OrganizerLayout>
         <div class="p-2">
             <div class="h-[300px] w-full bg-cover" :style="`background-image: url(${program.photo});`">
                 <button class="inline-block bg-black text-white rounded-full p-2 m-2" @click="goBack">
@@ -79,6 +75,8 @@ function goBack() {
             <p class="mt-2 text-gray-600 text-sm">
                 {{ program.description }}
             </p>
+
+            <p class="mt-2 font-semibold text-yellow-500"><span>Total Distributed Points:</span> {{ total_points }}</p>
         </div>
 
 
@@ -87,44 +85,73 @@ function goBack() {
 
             <div class="mt-5">
                 <template v-if="mode === 0">
-                    <form class="space-y-5" @submit.prevent="initiateBarter">
-                        <div>
-                            <label for="text-sm">Offered Program</label>
-                            <LoyaltyProgramSelector class="mt-1" :programs="programs" v-model="form.offered_program"
-                                disabled>
-                            </LoyaltyProgramSelector>
+                    <form class="space-y-5" @submit.prevent="onSubmit">
+                        <div v-if="!form.user">
+                            <label>Scan QR</label>
+                            <div class="mt-1">
+                                <QrStream @decode="setUser" />
+                            </div>
                         </div>
-                        <div>
-                            <label for="text-sm">Offered Points</label>
-                            <input type="number" class="mt-1 w-full border border-black rounded-sm px-3 py-2" min="1"
-                                :max="participation_data.points" v-model="form.offered_points">
+
+                        <div v-if="form.user">
+                            <label>User</label>
+                            <input type="text" class="mt-1 w-full border border-black rounded-sm px-3 py-2"
+                                v-model="form.user.name" disabled>
+
+                            <button class="mt-1 text-red-500 underline" @click.prevent="form.user = null">
+                                Scan Again
+                            </button>
                         </div>
+
                         <div>
-                            <label for="text-sm">Requested Program</label>
-                            <LoyaltyProgramSelector class="mt-1" :programs="programs" v-model="form.requested_program">
-                            </LoyaltyProgramSelector>
+                            <label>Action</label>
+                            <select class="mt-1 w-full border border-black rounded-sm px-3 py-2" v-model="action">
+                                <option value="credit">Credit</option>
+                                <option value="redeem">Redeem</option>
+                            </select>
                         </div>
+
                         <div>
-                            <label for="text-sm">Requested Points</label>
-                            <input type="number" class="mt-1 w-full border border-black rounded-sm px-3 py-2" min="1"
-                                v-model="form.requested_points">
+                            <label>Points</label>
+                            <input type="number" class="mt-1 w-full border border-black rounded-sm px-3 py-2" min="1">
                         </div>
-    
+
+                        <div>
+                            <label>Note</label>
+                            <textarea rows="2" class="mt-1 w-full border border-black rounded-sm px-3 py-2"
+                                v-model="form.note">
+                            </textarea>
+                        </div>
+
                         <button type="submit"
                             class="block rounded-sm py-2 text-white bg-black w-full disabled:bg-opacity-70"
-                            :disabled="form.processing || form.requested_program === form.offered_program || !form.offered_points || form.offered_points < 1 || !form.requested_program || !form.requested_points || form.requested_points < 1">
-                            Initiate
+                            :disabled="form.processing">
+                            Submit
                         </button>
                     </form>
                 </template>
 
                 <template v-else>
-                    <div v-for="customer in customers" :key="customer.id">
-                        
-                    </div>
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left">Customer</th>
+                                <th class="text-left">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b" v-for="customer in customers" :key="customer.id">
+                                <td class="py-2">
+                                    <span class="">{{ customer.name }}</span><br>
+                                    <span class="mt-1 text-sm text-gray-600">{{ customer.email }}</span>
+                                </td>
+                                <td>{{ customer.pivot.points }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </template>
             </div>
         </div>
 
-    </AppLayout>
+    </OrganizerLayout>
 </template>

@@ -9,7 +9,7 @@ const props = defineProps({
 onMounted(() => {
     const qrPlaceholder = document.getElementById('qr-placeholder');
 
-    new QRCode(qrPlaceholder, JSON.stringify({ uuid: props.user.uuid, type: 'user' }))
+    new QRCode(qrPlaceholder, JSON.stringify({ uuid: props.user.uuid, name: props.user.name, type: 'user' }))
 })
 </script>
 

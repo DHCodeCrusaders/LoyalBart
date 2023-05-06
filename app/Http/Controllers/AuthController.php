@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return to_route('home');
+        return to_route($user->is_organizer ? 'organizer.home' : 'home');
     }
 
     public function destroy()
