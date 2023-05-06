@@ -9,7 +9,6 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-
 Route::redirect('/', '/loyalty-programs')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
@@ -45,24 +44,25 @@ Route::group(['middleware' => 'auth'], function () {
                     fn ($q) => $q->where('offered_program_id', $program->id)->orWhere('offered_program_id', $program->id)
                 )
                 ->with(['initiator', 'offeredProgram', 'requestedProgram'])
+                ->orderBy('created_at', 'desc')
                 ->get()
         ]);
     })->name('loyalty-programs.show');
 
     Route::post('/barter/initiate', function () {
         $data = request()->validate([
-            'offered_program_id' => 'required|exists:loyalty_programs,id',
-            'requested_program_id' => 'required|exists:loyalty_programs,id',
+            'offered_program' => 'required|exists:loyalty_programs,id',
+            'requested_program' => 'required|exists:loyalty_programs,id',
             'requested_points' => 'required|integer|min:1',
             'offered_points' => 'required|integer|min:1',
         ]);
 
         try {
-            app()->make(InitiateBarter::class)->handle(
+            $barter = app()->make(InitiateBarter::class)->handle(
                 Auth::user(),
-                LoyaltyProgram::find($data['offered_program_id']),
+                LoyaltyProgram::find($data['offered_program']),
                 $data['offered_points'],
-                LoyaltyProgram::find($data['requested_program_id']),
+                LoyaltyProgram::find($data['requested_program']),
                 $data['requested_points'],
             );
 
@@ -73,11 +73,8 @@ Route::group(['middleware' => 'auth'], function () {
             session(['error' => $e->getMessage()]);
         }
 
-        return back();  
-        
+        return back();
     })->name('barter.initiate');
-
-    Route::get('/');
 });
 
 Route::get('login', function () {

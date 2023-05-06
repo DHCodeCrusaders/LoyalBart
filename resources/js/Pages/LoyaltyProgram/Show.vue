@@ -30,8 +30,10 @@ const form = useForm({
 
 const tabs = props.participation_data ? ['Active Barters', 'Initiate Barter'] : ['Active Barters']
 
-function initiateBarter(){
-    form.post(route('barter.initiate'))
+function initiateBarter() {
+    form.post(route('barter.initiate'), {
+        preserveState: true
+    })
 }
 </script>
 
@@ -80,9 +82,31 @@ function initiateBarter(){
                         </div>
                     </div>
 
-                    <div v-for="barter in barters">
-                        'Hello world'
-                    </div>
+                    <table class="w-full overflow-x-scroll mt-5">
+                        <tr v-for="barter in barters" :key="barter.id" class="bg-gray-100">
+                            <div class="p-4">
+                                <p>
+                                    <span class="font-semibold">Offered Program</span>:
+                                    <Link class="underline"
+                                        :href="route('loyalty-programs.show', barter.offered_program.id)">
+                                    {{ barter.offered_program.title }}
+                                    </Link>
+                                </p>
+                                <p>
+                                    <span class="font-semibold">Offered Points</span>:
+                                    {{ barter.offered_points }}
+                                </p>
+                                <p>
+                                    <span class="font-semibold">Request Program</span>:
+                                    <Link class="underline"
+                                        :href="route('loyalty-programs.show', barter.requested_program.id)">
+                                    {{ barter.requested_program.title }}
+                                    </Link>
+                                </p>
+                                <span class="font-semibold">Request Points</span>: {{ barter.requested_points }}<br>
+                            </div>
+                        </tr>
+                    </table>
                 </template>
 
                 <template v-else>
@@ -109,7 +133,8 @@ function initiateBarter(){
                                 v-model="form.requested_points">
                         </div>
 
-                        <button type="submit" class="block rounded-sm py-2 text-white bg-black w-full disabled:bg-opacity-70"
+                        <button type="submit"
+                            class="block rounded-sm py-2 text-white bg-black w-full disabled:bg-opacity-70"
                             :disabled="form.processing || form.requested_program === form.offered_program || !form.offered_points || form.offered_points < 1 || !form.requested_program || !form.requested_points || form.requested_points < 1">
                             Initiate
                         </button>
